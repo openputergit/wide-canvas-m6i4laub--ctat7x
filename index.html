@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Resume Analyzer</title>
+    <script src="https://unpkg.com/pdf.js/build/pdf.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f0f0f0;
+        }
+        .neubrutalism {
+            border: 3px solid black;
+            box-shadow: 5px 5px 0px black;
+            transition: all 0.2s ease;
+        }
+        .neubrutalism:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px black;
+        }
+        .result-box {
+            background: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border: 3px solid black;
+            box-shadow: 5px 5px 0px black;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 neubrutalism">
+        <h1 class="text-4xl font-bold mb-8 text-center">ATS Resume Analyzer</h1>
+        
+        <div class="space-y-6">
+            <!-- Resume Upload -->
+            <div class="neubrutalism p-4 bg-green-200">
+                <label class="block font-bold mb-2">Upload Your Resume (PDF)</label>
+                <input type="file" id="resumeInput" accept=".pdf" class="w-full p-2 border-2 border-black">
+            </div>
+
+            <!-- Job Description URL -->
+            <div class="neubrutalism p-4 bg-blue-200">
+                <label class="block font-bold mb-2">Job Description URL</label>
+                <input type="url" id="jobUrlInput" class="w-full p-2 border-2 border-black" placeholder="Paste job URL here">
+            </div>
+
+            <!-- Analyze Button -->
+            <button onclick="analyzeResume()" class="w-full bg-yellow-300 py-3 px-6 font-bold text-lg neubrutalism">
+                Analyze Resume
+            </button>
+
+            <!-- Results Section -->
+            <div id="results" class="hidden result-box">
+                <h2 class="text-2xl font-bold mb-4">Analysis Results</h2>
+                <div class="space-y-4">
+                    <div>
+                        <p class="font-bold">ATS Score:</p>
+                        <div class="w-full bg-gray-200 rounded-full h-6 neubrutalism">
+                            <div id="atsScore" class="bg-green-400 h-6 rounded-full text-center" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-bold">Missing Keywords:</p>
+                        <ul id="missingKeywords" class="list-disc ml-6"></ul>
+                    </div>
+                    <div>
+                        <p class="font-bold">Suggestions:</p>
+                        <div id="suggestions" class="mt-2 p-4 bg-yellow-100 neubrutalism"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function analyzeResume() {
+            const resumeFile = document.getElementById('resumeInput').files[0];
+            const jobUrl = document.getElementById('jobUrlInput').value;
+
+            if (!resumeFile || !jobUrl) {
+                alert('Please upload both resume and job URL');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Simulated analysis (in real-world, this would connect to a backend)
+            await simulateLoading();
+
+            // Display results
+            const score = Math.floor(Math.random() * 41) + 60; // Random score between 60-100
+            document.getElementById('atsScore').style.width = `${score}%`;
+            document.getElementById('atsScore').textContent = `${score}%`;
+
+            // Sample missing keywords
+            const keywords = ['leadership', 'agile methodology', 'project management', 'team collaboration'];
+            const missingKeywordsList = document.getElementById('missingKeywords');
+            missingKeywordsList.innerHTML = '';
+            keywords.forEach(keyword => {
+                const li = document.createElement('li');
+                li.textContent = keyword;
+                missingKeywordsList.appendChild(li);
+            });
+
+            // Sample suggestions
+            document.getElementById('suggestions').innerHTML = `
+                <ul class="list-disc ml-4">
+                    <li>Consider adding more industry-specific keywords</li>
+                    <li>Quantify your achievements with metrics</li>
+                    <li>Include relevant certifications</li>
+                    <li>Make sure your resume is properly formatted</li>
+                </ul>
+            `;
+        }
+
+        function simulateLoading() {
+            return new Promise(resolve => setTimeout(resolve, 2000));
+        }
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
